@@ -5,7 +5,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ["Bodoni Moda"]
+        body: ["Bodoni Moda"],
+        logo: ["bleedingcowboys"]
       }
     },
   },

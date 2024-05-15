@@ -1,12 +1,35 @@
-function ItemListContainer(greeting) {
-  return (
-    <div className="relative font-body">
-        <img src="./landing-image.jpg" alt="imagen del landing" className="w-[100%] h-[85vh] object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black from-1% via-transparent to-transparent flex flex-row justify-center">
-            <h2 className="text-white uppercase m-auto text-7xl text-stroke-1 font-semibold">{greeting.text}</h2>
-        </div>
-    </div>
-  )
+import {useState, useEffect} from 'react'
+import {useParams} from 'react-router-dom'
+import ItemList from "./ItemList"
+import arrayProducts from "../products/json/products.json"
+import ItemDetailContainer from './ItemDetailContainer'
+
+const fetchItems = () => {
+    return new Promise ((resolve) => {
+        setTimeout(() => {
+            resolve(arrayProducts)
+        }, 2000)
+    }) 
 }
 
+const ItemListContainer = ({greeting}) => {    
+    const [items, setItems] = useState([])
+    const {id} = useParams()
+
+    useEffect(() => {
+        const fecthData = async () => {
+            const data = await fetchItems(id)
+            setItems(id ? data.filter(i => i.category == id) : data)
+        }
+
+        fecthData()
+    }, [id])
+
+    return(
+        <section className="bg-white"> 
+            <h2 className="text-5xl font-body text-black pt-5 text-center mt-0">{greeting}</h2>
+            <ItemList items={ items } />
+        </section>
+    )
+}
 export default ItemListContainer
